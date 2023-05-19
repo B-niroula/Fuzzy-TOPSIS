@@ -180,6 +180,7 @@ def normalize_decision_matrix(request):
 
         # Calculate mean_values (fuzzy decision matrix)
         mean_values = [[{"l": 0, "m": 0, "u": 0} for _ in range(num_criteria)] for _ in range(num_alternatives)]
+        smallConstant = int (10**(-10))
         for expert in experts:
             values = expert.values
             scale = int(expert.scale)
@@ -206,12 +207,12 @@ def normalize_decision_matrix(request):
                 max_cij = max(mean_values[i][j]["u"] for i in range(num_alternatives))
                 for i in range(num_alternatives):
                     aij, bij, cij = mean_values[i][j]["l"], mean_values[i][j]["m"], mean_values[i][j]["u"]
-                    normalized_decision_matrix[i][j] = (aij / max_cij, bij / max_cij, cij / max_cij)
+                    normalized_decision_matrix[i][j] = (aij / (max_cij + smallConstant), bij / (max_cij + smallConstant), cij / (max_cij + smallConstant))
             elif criteria_type == "-":  # cost criteria
                 min_aij = min(mean_values[i][j]["l"] for i in range(num_alternatives))
                 for i in range(num_alternatives):
                     aij, bij, cij = mean_values[i][j]["l"], mean_values[i][j]["m"], mean_values[i][j]["u"]
-                    normalized_decision_matrix[i][j] = (min_aij / cij, min_aij / bij, min_aij / aij)
+                    normalized_decision_matrix[i][j] = (min_aij / (cij + smallConstant), min_aij / (bij + smallConstant), min_aij / (aij + smallConstant))
 
         # Calculate the weighted normalized decision matrix
         weighted_normalized_decision_matrix = [[(0, 0, 0) for _ in range(num_criteria)] for _ in range(num_alternatives)]
