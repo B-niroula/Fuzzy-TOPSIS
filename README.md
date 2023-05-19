@@ -25,7 +25,7 @@ Install all the dependencies
 Run the backend as: 
             $ python3 manage.py runserver
             
-Run the frontend as:
+Run the frontend as (in a different terminal tab):
             $ python3 manage.py runserver 8001
             
             
