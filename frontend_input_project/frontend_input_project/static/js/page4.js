@@ -509,6 +509,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     document.getElementById('download-excel').addEventListener('click', function () {
+        // const table = document.querySelector('#criteria-table-real table');
+        // const table = document.querySelector('#fuzzy-scale-tabe-real table');
+        // const table = document.querySelector('#normalize-table-real table');
+        // const table = document.querySelector('#weighted-normalize-table-real table');
+        // const table = document.querySelector('#ideal-solution-table-real table');
+        // const table = document.querySelector('#distance-ideal-solution-table-real table');
         const table = document.querySelector('#rank-table-real table');
         downloadTableAsExcel(table, 'RankTable.xlsx');
     });
