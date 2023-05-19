@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Input</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    
+    <h1>TOPSIS Resultssss</h1>
+
+    <table id="criteria-table">
+        <thead>
+            <tr>
+                <th>Characteristic Name</th>
+                <th>Type</th>
+                <th>L</th>
+                <th>M</th>
+                <th>U</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button id="topsis-result-back-button">Back</button>
+    <script>
+        document.getElementById('topsis-result-back-button').addEventListener('click', function() {
+            window.history.back();
+        });
+
+        const criteriaData = JSON.parse(localStorage.getItem('topsisResults'));
+        const tableBody = document.getElementById('criteria-table').querySelector('tbody');
+        //console.log("Criteria Dataa:", criteriaData); // 
+
+        criteriaData.forEach((criterion) => {
+            const row = tableBody.insertRow();
+            row.insertCell().textContent = criterion.name;
+            row.insertCell().textContent = criterion.type;
+            row.insertCell().textContent = criterion.l;
+            row.insertCell().textContent = criterion.m;
+            row.insertCell().textContent = criterion.u;
+        });
+
+    </script>
+</body>
+</html>

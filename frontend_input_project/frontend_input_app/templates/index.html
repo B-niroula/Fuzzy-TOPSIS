@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Input</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <!-- <form id="frontend-form" method="POST" action="{% url 'index' %}"> -->
+        <div class="step">
+            <label for="project-name">Project Name:</label>
+            <input type="text" id="project-name">
+            <button id="next-button">Next</button>
+        </div>
+
+        <div class="step" style="display:none;">
+            <button id="back-button">Back</button>
+            <br><br>
+            <label for="num-alternatives">Number of alternatives:</label>
+            <input type="number" id="num-alternatives">
+            <br>
+            <label for="num-criteria">Number of criteria:</label>
+            <input type="number" id="num-criteria">
+            <br>
+            <button id="create-tables-button">Create tables for alternatives and criteria</button>
+            <br>
+            <div id="tables-container"></div>
+            <button id="to-scale-selection-button" style="display:none;">Next</button>
+        </div>
+
+        <div class="step" style="display:none;">
+            <button id="scale-back-button">Back</button>
+            <div class="upper-division">
+                <h3>Select scale:</h3>
+                <select id="scale-select">
+                    <option value="3">3-point</option>
+                    <option value="5">5-point</option>
+                    <option value="7">7-point</option>
+                    <option value="custom">Custom Scale</option>
+                </select>
+            </div>
+            <!-- Add the new div below the upper-division div -->
+            <div class="lower-division">
+                <div id="scale-table-container"></div>
+            </div>
+            <button id="scale-next-button">Next</button> 
+        </div>
+
+        <div class="step" style="display: none;">
+            <div class="back-button-container">
+                <button id="create-scale-back-button">Back</button>
+            </div>
+            <div class="stacked-container">
+                <div class="stacked-division first-division">
+                    <select id="expert-select"></select>
+                    <button id="add-expert-button">Add Expert</button>
+                    <button id="save-expert-button">Save Expert</button>
+                    <button id="delete-expert-button">Delete Expert</button>
+                    <button id="mean-of-experts-button"> Mean of Experts </button>
+                    <button id="topsis-caculation-button">Calculate TOPSIS </button>
+                </div>
+                <div class="stacked-division second-division">
+                    <div id="decision-matrix-container"></div>
+
+                </div>
+                <div class="stacked-division third-division">
+                    <h3>Third </h3> <!-- Content for 3rd division (15%) -->
+                </div>
+            </div>
+        </div>
+
+        <div class="step" style="display:none;">
+            <button id="topsis-back-button">Back</button>
+            <div id="criteria-table-container">
+                <h4>Step 1: Create a decision matrix </h4>
+                <p> The table below shows the name of Critira, their type, and the weights assigned to them:</p>
+                <h5> Characteristics of Criteria</h5>
+                <div id="criteria-table-real"></div>
+            </div>
+            <div id = "fuzzy-scale-table"> <h4>Fuzzy Scale Tables</h4> <p> The following table shows the fuzzy scale used in the model: </p>
+                <div id = "fuzzy-scale-tabe-real"></div>
+            </div>
+            <div id = "calculate-decision-matrix-table"> <h4>Decision Matrix Table</h4> <p> The following table shows the decision scale used in the model: </p>
+                <div id = "decision-matrix-table-real"></div>
+            </div>
+            <div id = "normalize-table-container">
+                <h4>Step 2: Create the normalized decision matrix</h4>
+                <p>Based on the positive and negative ideal solution, a normalized decision matrix is calculated by the following relation: </p>
+                <h5> A normalized decision matrix </h5>
+                <div id = "normalize-table-real"></div>
+            </div>
+            <div id = "weighted-normalize-table-container">
+                <h4>Step 3: Create the weighted normalized decision matrix</h4>
+                <p>Based on the positive and negative ideal solution, a weigted normalized decision matrix is calculated by the following relation: </p>
+                <h5> A weighted normalized decision matrix </h5>
+                <div id = "weighted-normalize-table-real"></div>
+            </div> 
+            <div id = "idea-solution-table">
+                <h4>Step 4: Determine the Fuzzy Positive Ideal Solution (FPIS, A+), and the Fuzzy Ideal Negative Solution (FNIS, A-)</h4>
+                <p>The FPIS and FNIS are defined as below: </p>
+                <h5> The positive and negative ideal solutions </h5>
+                <div id = "ideal-solution-table-real"></div>
+            </div>
+            <div id = "distance-idea-solution-table">
+                <h4>Step 5: Calculate the distance between each alternative and the fuzzy ideal solution A+ and the distance between each alternative and the fuzzy ideal negative soultion A-</h4>
+                <p>The distance between each alternative and FPIS and the ditance between each alternative and FNIS are respectively calculated as follows: </p>
+                <h5>Distance from positive and negative ideal solutions</h5>
+                <div id = "distance-ideal-solution-table-real"></div>
+            </div>
+            <div id = "rank-table">
+                <h4>Step 6: Calculate the closeness coefficients and rank the Alternatives</h4>
+                <p>The closeness coefficient of each alternative can be calculated as follows: </p>
+                <h5>Closeness Coefficient</h5>
+                <div id = "rank-table-real"></div>
+            </div>
+            <button id="download-excel">Download as Excel</button> 
+            
+            
+        </div>
+
+        <div id="context-menu" style="display: none; position: absolute; z-index: 1000; background-color: white; border: 1px solid #ccc;">
+            <ul style="list-style-type: none; margin: 0; padding: 0;">
+                <li id="insert-row-above" style="padding: 8px 12px; cursor: pointer;">Insert row above</li>
+                <li id="insert-row-below" style="padding: 8px 12px; cursor: pointer;">Insert row below</li>
+                <li id="delete-row" style="padding: 8px 12px; cursor: pointer;">Delete row</li>
+            </ul>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>
+        <script src="{% static 'js/page1.js' %}"></script>
+        <script src="{% static 'js/page2.js' %}"></script>
+        <script src="{% static 'js/page3.js' %}"></script>
+        <script src="{% static 'js/page4.js' %}"></script>
+</body>
+</html>
