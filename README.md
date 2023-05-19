@@ -18,17 +18,19 @@ Please make sure pip is updated. If not, use
 Install all the dependencies
 
             $ pip3 install django
-            $ pip3 install pip install djangorestframework
+            $ pip3 install djangorestframework
             $ pip3 install django-cors-headers
             $ pip3 install requests
     
 Run the backend as:
-            cd backend
+
+            $ cd backend
             $ python3 manage.py runserver
             
 Run the frontend as (in a different terminal tab):
+
             (make sure you are in the same virtual environment (venv))
-            cd frontend_input_project
+            $ cd frontend_input_project
             $ python3 manage.py runserver 8001
             
             
